@@ -1,0 +1,66 @@
+﻿@model ML.Disco
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Formulario de disco</h2>
+<hr />
+<div class="container">
+    @using (Html.BeginForm("Form", "Disco", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(model=>model.IdDisco)
+        <div class="row mb-3">
+            <div class="col col-4">
+                @Html.LabelFor(model => model.Titulo)
+                @Html.TextBoxFor(model => model.Titulo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model=>model.Titulo,"", new {@class="text-danger"})
+            </div>
+            <div class="col col-4">
+                @Html.LabelFor(model => model.Artista.IdArtista)
+                @Html.DropDownListFor(model => model.Artista.IdArtista, new SelectList(Model.Artista.Artistas, "IdArtista", "NombreArtistico"), "Selecciona un artista", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model=>model.Artista.IdArtista,"",new {@class="text-danger"})
+            </div>
+            <div class="col col-4">
+                @Html.LabelFor(model => model.GeneroMusical.IdGeneroMusical)
+                @Html.DropDownListFor(model => model.GeneroMusical.IdGeneroMusical, new SelectList(Model.GeneroMusical.GenerosMusicales, "IdGeneroMusical", "Nombre"), "Selecciona un genero musical.", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.GeneroMusical.IdGeneroMusical, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col col-4">
+                @Html.LabelFor(model => model.Duracion)
+                @Html.TextBoxFor(model => model.Duracion, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Duracion, "", new { @class = "text-danger" })
+            </div>
+            <div class="col col-4">
+                @Html.LabelFor(model => model.Anio)
+                @Html.TextBoxFor(model => model.Anio, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Anio, "", new { @class = "text-danger" })
+            </div>
+            <div class="col col-4">
+                @Html.LabelFor(model => model.Distribuidora.IdDistribuidora)
+                @Html.DropDownListFor(model => model.Distribuidora.IdDistribuidora, new SelectList(Model.Distribuidora.Distribuidoras, "IdDistribuidora", "Nombre"), "Selecciona una distribuidora", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Distribuidora.IdDistribuidora, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        if (Model.IdDisco > 0)
+        {
+            <div class="row mb-3">
+                <div class="col col-4">
+                    @Html.LabelFor(model => model.Ventas)
+                    @Html.TextBoxFor(model => model.Ventas, new { @class = "form-control" })
+                </div>
+                <div class="col col-4">
+                    @Html.LabelFor(model => model.Disponibilidad)<br />
+                    @Html.RadioButtonFor(model => model.Disponibilidad, "true", new {@class="form-check-input"})<span>Disponible</span>
+                    @Html.RadioButtonFor(model => model.Disponibilidad, "false", new { @class = "form-check-input" })<span>No disponible</span>
+                </div>
+            </div>
+        }
+        <div>
+            <button class="btn btn-success" type="submit"><i class="fa-solid fa-download"></i>  Guardar</button>
+            <a class="btn btn-danger" href="@Url.Action("GetAll","Disco")"><i class="fa-solid fa-arrow-rotate-left"></i>  Volver</a>
+        </div>
+    }
+</div>

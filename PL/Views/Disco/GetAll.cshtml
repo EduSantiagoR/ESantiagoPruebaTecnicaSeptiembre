@@ -1,0 +1,67 @@
+﻿@model ML.Disco
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Discos</h2>
+<hr />
+<a class="btn btn-success" href="@Url.Action("Form","Disco")"><i class="fa-solid fa-compact-disc"></i>  Agregar disco</a>
+<hr />
+<div class="text-center align-content-center">
+    @if (Model.Discos != null)
+    {
+        if (Model.Discos.Count > 0)
+        {
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th>Editar</th>
+                        <th>Titulo</th>
+                        <th>Artista</th>
+                        <th>Género</th>
+                        <th>Duración</th>
+                        <th>Año</th>
+                        <th>Distribuidora</th>
+                        <th>Ventas</th>
+                        <th>Disponibilidad</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (ML.Disco disco in Model.Discos)
+                    {
+                        <tr>
+                            <td><a class="btn btn-success" href="@Url.Action("Form","Disco", new {idDisco = disco.IdDisco})"><i class="fa-solid fa-wrench"></i></a></td>
+                            <td>@disco.Titulo</td>
+                            <td>@disco.Artista.NombreArtistico</td>
+                            <td>@disco.GeneroMusical.Nombre</td>
+                            <td>@disco.Duracion</td>
+                            <td>@disco.Anio.ToString("yyyy")</td>
+                            <td>@disco.Distribuidora.Nombre</td>
+                            <td>@disco.Ventas</td>
+                            @if (disco.Disponibilidad)
+                            {
+                                <td><i class="fa-solid fa-check" style="color: #008000;"></i></td>
+
+                            }
+                            else
+                            {
+                                <td><i class="fa-solid fa-xmark" style="color: #ff0000;"></i></td>
+
+                            }
+                            <td><a class="btn btn-danger" href="@Url.Action("Delete", "Disco", new {idDisco = disco.IdDisco})"><i class="fa-regular fa-trash-can"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning" role="alert">
+                Sin registros de discos.
+            </div>
+        }
+    }
+</div>
+
